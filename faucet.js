@@ -16,13 +16,13 @@ async function claimTokens(address, successCount) {
 
     try {
         const response = await axios.post(url, payload, { headers });
-        const timestamp = new Date().toISOString(); // Get current timestamp
+        const timestamp = new Date().toLocaleTimeString(); // Mengambil waktu dalam format jam:menit:detik
         successCount++; // Increment success count
-        console.log(`[${timestamp}] Success Count: ${successCount}, Response Status: ${response.status}, Response Data: ${JSON.stringify(response.data)}`);
+        console.log(`[${timestamp}] Success: ${successCount}, Response: ${response.status}, ${JSON.stringify(response.data)}`);
     } catch (error) {
         const timestamp = new Date().toISOString(); // Get current timestamp
         if (error.response) {
-            console.error(`[${timestamp}] Error Response Status: ${error.response.status}, Error Response Data: ${JSON.stringify(error.response.data)}`);
+            console.error(`[${timestamp}] Response: ${error.response.status}, ${JSON.stringify(error.response.data)}`);
         } else {
             console.error(`[${timestamp}] Error: ${error.message}`);
         }
@@ -49,7 +49,7 @@ const rl = readline.createInterface({
 });
 
 // Function to get user input
-const getUser Input = () => {
+const getUserInput = () => {
     return new Promise((resolve) => {
         rl.question('Enter Ethereum address: ', (address) => {
             rl.question('Enter total loops (e.g., 50): ', (totalLoops) => {
@@ -68,7 +68,7 @@ const getUser Input = () => {
 
 // Main function to start the bot
 const startBot = async () => {
-    const { address, totalLoops, delay } = await getUser Input();
+    const { address, totalLoops, delay } = await getUserInput();
 
     if (address && totalLoops > 0 && delay > 0) {
         autoLoop(address, totalLoops, delay);
